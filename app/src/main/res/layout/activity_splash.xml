@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_gradient">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/splash_logo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/castlematic_icon"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Castlematic"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif-light" />
+
+        <TextView
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TRACK | CONTROL | OPTIMISE"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:alpha="0.8"
+            android:letterSpacing="0.1"
+            android:fontFamily="sans-serif-medium" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:text="Powered by MEIL"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:alpha="0.6" />
+
+</RelativeLayout>
