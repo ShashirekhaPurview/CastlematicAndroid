@@ -13,7 +13,8 @@ public class FuelTheftRepository {
     private FuelTheftApi api;
 
     public FuelTheftRepository() {
-        api = ApiClient.getClient().create(FuelTheftApi.class);
+        // FIXED: Use createService instead of getClient
+        api = ApiClient.createService(FuelTheftApi.class);
     }
 
     // Get theft alerts (pending review)

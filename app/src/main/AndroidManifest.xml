@@ -27,6 +27,11 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name=".features.idle_hours.IdleHoursActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Castlematic"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">

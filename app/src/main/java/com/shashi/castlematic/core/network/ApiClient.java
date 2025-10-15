@@ -1,8 +1,8 @@
 package com.shashi.castlematic.core.network;
 
 import android.content.Context;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import android.util.Log;
+
 import com.shashi.castlematic.core.config.AppConfig;
 
 import java.util.concurrent.TimeUnit;
@@ -13,45 +13,52 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
+    private static final String TAG = "ApiClient";
     private static Retrofit retrofit;
-    private static Context appContext;
+    private static Context context;
+    private static OkHttpClient okHttpClient;
 
-    public static void initialize(Context context) {
-        appContext = context.getApplicationContext();
-    }
+    public static void initialize(Context ctx) {
+        context = ctx.getApplicationContext();
 
-    public static Retrofit getClient() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(AppConfig.BASE_URL)
-                    .client(getOkHttpClient())
-                    .addConverterFactory(GsonConverterFactory.create(getGson()))
-                    .build();
-        }
-        return retrofit;
-    }
-
-    private static OkHttpClient getOkHttpClient() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
+        // Create OkHttpClient with interceptor
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(logging);
+                .addInterceptor(new AuthInterceptor(ctx));
 
-        if (appContext != null) {
-            builder.addInterceptor(new NetworkInterceptor(appContext));
-        }
+        // Add logging interceptor for debugging
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(loggingInterceptor);
 
-        return builder.build();
+        okHttpClient = builder.build();
+
+        // Use the correct base URL
+        String baseUrl = AppConfig.getCurrentBaseUrl();
+        Log.d(TAG, "Initializing ApiClient with base URL: " + baseUrl);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 
-    private static Gson getGson() {
-        return new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd HH:mm:ss")
-                .setLenient()
-                .create();
+    // ADD THIS METHOD - it was missing!
+    public static <S> S createService(Class<S> serviceClass) {
+        if (retrofit == null) {
+            throw new IllegalStateException("ApiClient must be initialized before creating services");
+        }
+        return retrofit.create(serviceClass);
+    }
+
+    public static Retrofit getRetrofit() {
+        return retrofit;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

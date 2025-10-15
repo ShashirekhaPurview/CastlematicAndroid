@@ -69,11 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             finish();
             return;
-        } else {
-            Toast.makeText(this, "✅ Authentication ready", Toast.LENGTH_SHORT).show();
         }
+        // REMOVED: Don't show toast here - too many toasts cause the issue
     }
-
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -144,32 +142,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupClickListeners() {
         fuelTheftCard.setOnClickListener(v -> {
             sessionManager.updateLastActivity();
-            Toast.makeText(this, "Opening Fuel Theft Analytics...", Toast.LENGTH_SHORT).show();
+            // REMOVED: Toast to reduce queue
             Intent intent = new Intent(this, com.shashi.castlematic.features.fuel_theft.FuelTheftActivity.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
 
         fuelIssueCard.setOnClickListener(v -> {
             sessionManager.updateLastActivity();
-            Toast.makeText(this, "Opening Fuel Issue Tracker...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fuel Issue - Coming Soon", Toast.LENGTH_SHORT).show();
             // TODO: Navigate to FuelIssueActivity
         });
 
         consumptionCard.setOnClickListener(v -> {
             sessionManager.updateLastActivity();
-            Toast.makeText(this, "Opening Consumption Analysis...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Consumption - Coming Soon", Toast.LENGTH_SHORT).show();
             // TODO: Navigate to ConsumptionActivity
         });
 
+        // FIXED: Navigate to IdleHoursActivity
         idleReasonCard.setOnClickListener(v -> {
             sessionManager.updateLastActivity();
-            Toast.makeText(this, "Opening Idle Equipment Analysis...", Toast.LENGTH_SHORT).show();
-            // TODO: Navigate to IdleReasonActivity
+            Intent intent = new Intent(this, com.shashi.castlematic.features.idle_hours.IdleHoursActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
 
         utilAvailCard.setOnClickListener(v -> {
             sessionManager.updateLastActivity();
-            Toast.makeText(this, "Opening Utilization vs Availability...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Utilization - Coming Soon", Toast.LENGTH_SHORT).show();
             // TODO: Navigate to UtilAvailActivity
         });
     }
@@ -179,12 +180,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_dashboard) {
-            Toast.makeText(this, "Fleet Management Dashboard", Toast.LENGTH_SHORT).show();
+            // Already on dashboard, just close drawer
         } else if (id == R.id.nav_profile) {
-            Toast.makeText(this, "User Profile", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Profile - Coming Soon", Toast.LENGTH_SHORT).show();
             // TODO: Open profile activity
         } else if (id == R.id.nav_settings) {
-            Toast.makeText(this, "Application Settings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Settings - Coming Soon", Toast.LENGTH_SHORT).show();
             // TODO: Open settings activity
         } else if (id == R.id.nav_about) {
             showAboutDialog();

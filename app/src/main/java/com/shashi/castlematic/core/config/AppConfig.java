@@ -1,18 +1,19 @@
 package com.shashi.castlematic.core.config;
 
 public class AppConfig {
-    // API Configuration - Updated with working endpoints
+    // API Configuration - UPDATED to use production endpoints
     public static final String DEV_BASE_URL = "http://192.168.0.224:1051/api/";
-    public static final String PROD_BASE_URL = "https://api.meil.in/api/";
+    public static final String PROD_BASE_URL = "https://api.analytics.castlematic.com/api/";
 
-    // Auth Configuration - Use local endpoint that's actually working
-    public static final String AUTH_BASE_URL = "http://192.168.0.224:1051/"; // Changed from ngrok
+    // Auth Configuration - UPDATED to use production
+    public static final String AUTH_BASE_URL = "https://api.analytics.castlematic.com/";
 
-    public static final String CLIENT_ID = "MEIL-5345"; // Updated to match your curl
-    public static final String CLIENT_SECRET = "string"; // Updated to match your curl (replace with real value)
+    // UPDATED client credentials to match your curl
+    public static final String CLIENT_ID = "MEIL-5345"; // Fixed from MEIL-5345
+    public static final String CLIENT_SECRET = "YOUR_ACTUAL_CLIENT_SECRET_HERE"; // Replace with real secret from curl
 
-    // Use dev for now
-    public static final String BASE_URL = DEV_BASE_URL;
+    // SWITCH to production for now (change back to DEV_BASE_URL if you need local)
+    public static final String BASE_URL = PROD_BASE_URL;
 
     // App Settings
     public static final double DEFAULT_FUEL_COST = 90.0;
@@ -33,4 +34,17 @@ public class AppConfig {
     // Test credentials
     public static final String TEST_USERNAME = "USER";
     public static final String TEST_PASSWORD = "purview@2025";
+
+    // Environment flag for easy switching
+    public static final boolean USE_PRODUCTION = true; // Set to true to use production API
+
+    // Get current base URL based on environment
+    public static String getCurrentBaseUrl() {
+        return USE_PRODUCTION ? PROD_BASE_URL : DEV_BASE_URL;
+    }
+
+    // Get current auth URL based on environment
+    public static String getCurrentAuthUrl() {
+        return USE_PRODUCTION ? AUTH_BASE_URL : "http://192.168.0.224:1051/";
+    }
 }
