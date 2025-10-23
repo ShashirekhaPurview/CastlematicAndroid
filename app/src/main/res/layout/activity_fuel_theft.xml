@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_gradient">
@@ -461,7 +462,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/false_card"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 android:clickable="true"
@@ -554,7 +555,8 @@
                     android:textStyle="bold"
                     android:background="@drawable/button_clear_bg"
                     android:textColor="@android:color/white"
-                    android:paddingHorizontal="12dp" />
+                    android:paddingHorizontal="16dp"
+                    android:minWidth="100dp" />
 
             </LinearLayout>
 
@@ -569,7 +571,7 @@
                 android:background="#F8F9FA"
                 android:visibility="gone">
 
-                <!-- FIXED: Prev button with proper contrast -->
+                <!-- FIXED: Prev button with proper contrast and sizing for small devices -->
                 <Button
                     android:id="@+id/prev_btn"
                     android:layout_width="wrap_content"
@@ -579,9 +581,9 @@
                     android:textStyle="bold"
                     android:background="@drawable/button_pagination"
                     android:textColor="#2C3E50"
-                    android:paddingHorizontal="16dp"
+                    android:paddingHorizontal="20dp"
                     android:layout_marginEnd="8dp"
-                    android:minWidth="80dp" />
+                    android:minWidth="90dp" />
 
                 <TextView
                     android:id="@+id/page_info"
@@ -594,7 +596,7 @@
                     android:gravity="center"
                     android:textStyle="bold" />
 
-                <!-- FIXED: Next button with proper contrast -->
+                <!-- FIXED: Next button with proper contrast and sizing for small devices -->
                 <Button
                     android:id="@+id/next_btn"
                     android:layout_width="wrap_content"
@@ -604,66 +606,9 @@
                     android:textStyle="bold"
                     android:background="@drawable/button_pagination"
                     android:textColor="#2C3E50"
-                    android:paddingHorizontal="16dp"
+                    android:paddingHorizontal="20dp"
                     android:layout_marginStart="8dp"
-                    android:minWidth="80dp" />
-
-            </LinearLayout>
-
-
-            <!-- Data Container with spacing -->
-            <LinearLayout
-                android:id="@+id/data_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="8dp" />
-
-
-            <!-- Pagination Controls -->
-            <LinearLayout
-                android:id="@+id/pagination_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:gravity="center_vertical"
-                android:background="#F8F9FA"
-                android:visibility="gone">
-
-                <Button
-                    android:id="@+id/prev_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="◀ Prev"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_secondary"
-                    android:textColor="#6C757D"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginEnd="8dp" />
-
-                <TextView
-                    android:id="@+id/page_info"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Page 1 of 1"
-                    android:textSize="14sp"
-                    android:textColor="#2C3E50"
-                    android:gravity="center"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/next_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="Next ▶"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_secondary"
-                    android:textColor="#6C757D"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginStart="8dp" />
+                    android:minWidth="90dp" />
 
             </LinearLayout>
 
@@ -673,7 +618,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp" />
 
         </LinearLayout>
 

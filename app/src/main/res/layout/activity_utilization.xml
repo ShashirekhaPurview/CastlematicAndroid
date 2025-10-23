@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:elevation="4dp"
+            app:titleTextColor="@android:color/white"
+            app:navigationIconTint="@android:color/white" />
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Utilization vs Availability"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:padding="16dp" />
+
+        <!-- Date Range and Filter Selection Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface_white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Date Range Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📅 Select Date Range"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2C3E50"
+                    android:layout_marginBottom="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- From Date -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="From Date"
+                            android:textSize="11sp"
+                            android:textColor="#6C757D"
+                            android:layout_marginBottom="4dp" />
+
+                        <LinearLayout
+                            android:id="@+id/from_date_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/date_input_background"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="12dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📆"
+                                android:textSize="16sp"
+                                android:layout_marginEnd="6dp" />
+
+                            <TextView
+                                android:id="@+id/from_date_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2025-10-15"
+                                android:textSize="13sp"
+                                android:textColor="#2C3E50"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- To Date -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="To Date"
+                            android:textSize="11sp"
+                            android:textColor="#6C757D"
+                            android:layout_marginBottom="4dp" />
+
+                        <LinearLayout
+                            android:id="@+id/to_date_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/date_input_background"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="12dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📆"
+                                android:textSize="16sp"
+                                android:layout_marginEnd="6dp" />
+
+                            <TextView
+                                android:id="@+id/to_date_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2025-10-16"
+                                android:textSize="13sp"
+                                android:textColor="#2C3E50"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Filter Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- Measurement Type Filter -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Type"
+                            android:textSize="11sp"
+                            android:textColor="#6C757D"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/measurement_type_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/spinner_background"
+                            android:paddingHorizontal="12dp" />
+
+                    </LinearLayout>
+
+                    <!-- Ownership Filter -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ownership"
+                            android:textSize="11sp"
+                            android:textColor="#6C757D"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/ownership_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/spinner_background"
+                            android:paddingHorizontal="12dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Load Button -->
+                <Button
+                    android:id="@+id/load_data_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="🔄 Load Data"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_gradient"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Summary Cards -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp">
+
+            <!-- Utilization Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="@color/surface_white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/overall_utilization"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/success_green" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Utilization"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Availability Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="@color/surface_white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/overall_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/warning_orange" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Availability"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Vehicle List Container -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white">
+
+            <!-- Search and Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚗 Vehicle Statistics"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Search Box -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="🔍 Search vehicle number..."
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/vehicle_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- Pagination Header -->
+            <LinearLayout
+                android:id="@+id/pagination_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:background="#F8F9FA"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/prev_page_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="◀ Prev"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_pagination"
+                    android:textColor="#2C3E50"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:minWidth="70dp" />
+
+                <TextView
+                    android:id="@+id/page_info_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Page 1 of 1"
+                    android:textSize="13sp"
+                    android:textColor="#2C3E50"
+                    android:gravity="center"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/next_page_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Next ▶"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_pagination"
+                    android:textColor="#2C3E50"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <!-- Data Container -->
+            <LinearLayout
+                android:id="@+id/vehicles_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

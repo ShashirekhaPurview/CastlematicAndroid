@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity
+            android:name=".features.utilization.UtilizationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Castlematic"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".features.user_management.UserManagementActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Castlematic"
+            android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".features.idle_hours.IdleHoursActivity"
             android:exported="false"

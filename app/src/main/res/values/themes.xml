@@ -47,5 +47,31 @@
     <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/grey_dark</item>
     </style>
+    <style name="CustomDatePickerStyle" parent="android:Widget.Material.DatePicker">
+        <item name="android:headerBackground">@color/primary_color</item>
+        <item name="android:calendarViewShown">true</item>
+        <item name="android:spinnersShown">false</item>
+    </style>
+
+    <!-- Glassy Navigation Drawer Style -->
+    <style name="GlassyNavigationViewStyle" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+        <item name="itemBackground">@drawable/nav_menu_item_glassy</item>
+        <item name="itemShapeFillColor">@android:color/transparent</item>
+        <item name="itemShapeInsetStart">12dp</item>
+        <item name="itemShapeInsetTop">4dp</item>
+        <item name="itemShapeInsetEnd">12dp</item>
+        <item name="itemShapeInsetBottom">4dp</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="itemTextAppearance">@style/NavItemTextAppearance</item>
+    </style>
+
+    <style name="NavItemTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
 
 </resources>

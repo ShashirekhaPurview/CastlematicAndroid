@@ -1,28 +1,19 @@
 package com.shashi.castlematic.core.network;
 
 import android.util.Log;
-import com.shashi.castlematic.core.config.AppConfig;
+
 import com.shashi.castlematic.features.fuel_theft.models.TheftModels.AuthResponse;
+import com.shashi.castlematic.core.config.AppConfig;
+
+import java.io.IOException;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import java.util.concurrent.TimeUnit;
 
 public class AuthRepository {
     private static final String TAG = "AuthRepository";
-    private final OkHttpClient client;
-
-    public AuthRepository() {
-        this.client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build();
-    }
 
     public interface AuthCallback {
         void onSuccess(AuthResponse response);
@@ -32,15 +23,9 @@ public class AuthRepository {
     public void login(String username, String password, AuthCallback callback) {
         new Thread(() -> {
             try {
-                // Use the correct auth URL from config
-                String authUrl = AppConfig.getCurrentAuthUrl() + AppConfig.AUTH_TOKEN_ENDPOINT;
+                OkHttpClient client = new OkHttpClient();
 
-                Log.d(TAG, "Login URL: " + authUrl);
-                Log.d(TAG, "Client ID: " + AppConfig.CLIENT_ID);
-                Log.d(TAG, "Username: " + username);
-
-                // Build form-encoded request body matching your curl
-                RequestBody formBody = new FormBody.Builder()
+                FormBody formBody = new FormBody.Builder()
                         .add("grant_type", "password")
                         .add("username", username)
                         .add("password", password)
@@ -50,57 +35,63 @@ public class AuthRepository {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url(authUrl)
-                        .header("accept", "application/json")
-                        .header("Content-Type", "application/x-www-form-urlencoded")
+                        .url(AppConfig.AUTH_BASE_URL + "/auth/token")
                         .post(formBody)
+                        .addHeader("accept", "application/json")
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded")
                         .build();
 
+                Log.d(TAG, "Sending login request to: " + request.url());
+
                 Response response = client.newCall(request).execute();
-                String responseBody = response.body() != null ? response.body().string() : "";
-
                 Log.d(TAG, "Response code: " + response.code());
-                Log.d(TAG, "Response body: " + responseBody);
 
-                if (response.isSuccessful()) {
-                    // Parse the JSON response
-                    AuthResponse authResponse = parseAuthResponse(responseBody);
-                    callback.onSuccess(authResponse);
+                if (response.isSuccessful() && response.body() != null) {
+                    String responseBody = response.body().string();
+                    Log.d(TAG, "Response body: " + responseBody);
+
+                    // Manual JSON parsing to ensure role is captured
+                    try {
+                        org.json.JSONObject jsonResponse = new org.json.JSONObject(responseBody);
+
+                        AuthResponse authResponse = new AuthResponse();
+                        authResponse.accessToken = jsonResponse.getString("access_token");
+                        authResponse.tokenType = jsonResponse.getString("token_type");
+                        authResponse.role = jsonResponse.optString("role", "admin");
+
+                        if (jsonResponse.has("expires_in")) {
+                            authResponse.expiresIn = jsonResponse.getLong("expires_in");
+                        }
+
+                        Log.d(TAG, "Parsed - Token: " + authResponse.tokenType + ", Role: " + authResponse.role);
+
+                        callback.onSuccess(authResponse);
+
+                    } catch (org.json.JSONException e) {
+                        Log.e(TAG, "JSON parsing error", e);
+                        callback.onError("Failed to parse response: " + e.getMessage());
+                    }
+
                 } else {
-                    callback.onError("Login failed: " + responseBody);
+                    String errorBody = response.body() != null ? response.body().string() : "Unknown error";
+                    Log.e(TAG, "Login failed - Code: " + response.code() + ", Body: " + errorBody);
+                    callback.onError("Login failed: " + response.code());
                 }
 
+            } catch (IOException e) {
+                Log.e(TAG, "Network error", e);
+                if (e.getMessage() != null &&
+                        (e.getMessage().contains("CLEARTEXT") ||
+                                e.getMessage().contains("ERR_NGROK_") ||
+                                e.getMessage().contains("Unable to resolve host"))) {
+                    callback.onError("Server offline or unreachable");
+                } else {
+                    callback.onError("Network error: " + e.getMessage());
+                }
             } catch (Exception e) {
-                Log.e(TAG, "Login error", e);
-                callback.onError("Network error: " + e.getMessage());
+                Log.e(TAG, "Unexpected error", e);
+                callback.onError("Unexpected error: " + e.getMessage());
             }
         }).start();
-    }
-
-    private AuthResponse parseAuthResponse(String json) {
-        try {
-            // Simple JSON parsing (you can use Gson if available)
-            AuthResponse response = new AuthResponse();
-
-            // Extract access_token
-            int tokenStart = json.indexOf("\"access_token\":\"") + 16;
-            int tokenEnd = json.indexOf("\"", tokenStart);
-            response.accessToken = json.substring(tokenStart, tokenEnd);
-
-            // Extract token_type
-            int typeStart = json.indexOf("\"token_type\":\"") + 14;
-            int typeEnd = json.indexOf("\"", typeStart);
-            response.tokenType = json.substring(typeStart, typeEnd);
-
-            Log.d(TAG, "Parsed token type: " + response.tokenType);
-
-            return response;
-        } catch (Exception e) {
-            Log.e(TAG, "Error parsing auth response", e);
-            AuthResponse response = new AuthResponse();
-            response.accessToken = "parse_error";
-            response.tokenType = "Bearer";
-            return response;
-        }
     }
 }

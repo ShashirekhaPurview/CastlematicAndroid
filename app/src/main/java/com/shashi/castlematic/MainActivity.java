@@ -170,8 +170,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         utilAvailCard.setOnClickListener(v -> {
             sessionManager.updateLastActivity();
-            Toast.makeText(this, "Utilization - Coming Soon", Toast.LENGTH_SHORT).show();
-            // TODO: Navigate to UtilAvailActivity
+            Intent intent = new Intent(this, com.shashi.castlematic.features.utilization.UtilizationActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
     }
 
@@ -181,14 +182,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_dashboard) {
             // Already on dashboard, just close drawer
-        } else if (id == R.id.nav_profile) {
-            Toast.makeText(this, "Profile - Coming Soon", Toast.LENGTH_SHORT).show();
-            // TODO: Open profile activity
+        } else if (id == R.id.nav_fuel_theft) {
+            sessionManager.updateLastActivity();
+            Intent intent = new Intent(this, com.shashi.castlematic.features.fuel_theft.FuelTheftActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_idle_hours) {
+            sessionManager.updateLastActivity();
+            Intent intent = new Intent(this, com.shashi.castlematic.features.idle_hours.IdleHoursActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_utilization) {
+            sessionManager.updateLastActivity();
+            Intent intent = new Intent(this, com.shashi.castlematic.features.utilization.UtilizationActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_user_management) {
+            // NEW: User Management with role-based access
+            sessionManager.updateLastActivity();
+            AuthManager authManager = AuthManager.getInstance(this);
+
+            if (authManager.canAddDriver()) {
+                Intent intent = new Intent(this, com.shashi.castlematic.features.user_management.UserManagementActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "❌ You don't have permission to access User Management",
+                        Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Settings - Coming Soon", Toast.LENGTH_SHORT).show();
-            // TODO: Open settings activity
-        } else if (id == R.id.nav_about) {
-            showAboutDialog();
         } else if (id == R.id.nav_logout) {
             showLogoutConfirmation();
         }
@@ -196,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     private void showLogoutConfirmation() {
         new AlertDialog.Builder(this, R.style.AlertDialogTheme)

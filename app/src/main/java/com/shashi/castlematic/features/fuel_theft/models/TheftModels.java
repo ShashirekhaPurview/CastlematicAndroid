@@ -341,6 +341,9 @@ public class TheftModels {
         @SerializedName("token_type")
         public String tokenType;
 
+        @SerializedName("role")
+        public String role;
+
         @SerializedName("expires_in")
         public long expiresIn; // Add if API provides this
 

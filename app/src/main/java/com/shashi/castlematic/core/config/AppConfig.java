@@ -6,7 +6,7 @@ public class AppConfig {
     public static final String PROD_BASE_URL = "https://api.analytics.castlematic.com/api/";
 
     // Auth Configuration - UPDATED to use production
-    public static final String AUTH_BASE_URL = "https://api.analytics.castlematic.com/";
+    public static final String AUTH_BASE_URL = "https://api.analytics.castlematic.com";
 
     // UPDATED client credentials to match your curl
     public static final String CLIENT_ID = "MEIL-5345"; // Fixed from MEIL-5345

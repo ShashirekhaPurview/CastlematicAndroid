@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Category Header (shown only once per category) -->
+        <TextView
+            android:id="@+id/category_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Engine &amp; Mechanical"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_color"
+            android:background="#F0F0F0"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <!-- Checkbox Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/item_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/primary_color" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:id="@+id/item_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Engine Oil Level"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/item_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Check oil level dipstick"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/camera_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_camera"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="@color/primary_color"
+                android:contentDescription="Take photo" />
+
+        </LinearLayout>
+
+        <!-- Photo Preview (initially hidden) -->
+        <ImageView
+            android:id="@+id/photo_preview"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:background="#F0F0F0"
+            android:visibility="gone"
+            android:contentDescription="Evidence photo" />
+
+        <!-- Remarks -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/remarks_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Remarks (optional)"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/item_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

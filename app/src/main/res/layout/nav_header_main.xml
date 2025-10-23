@@ -1,64 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/nav_header_gradient"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:layout_height="200dp"
+    android:background="@drawable/nav_header_glassy"
+    android:padding="20dp"
+    android:gravity="bottom">
 
-    <!-- Proper circular background for logo -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="4dp"
-        android:layout_marginTop="24dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Decorative circles for glassy effect -->
+    <View
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-40dp"
+        android:layout_marginEnd="-40dp"
+        android:background="@drawable/circle_white_blur"
+        android:alpha="0.15" />
 
-        <ImageView
-            android:id="@+id/nav_profile_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/castlematic_icon"
-            android:scaleType="centerCrop"
-            android:padding="10dp"
-            android:background="@android:color/white" />
+    <View
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-20dp"
+        android:background="@drawable/circle_white_blur"
+        android:alpha="0.1" />
 
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/nav_username"
+    <!-- Content -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="MEIL-AMAS"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/nav_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="fleetmanager@meil.in"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:alpha="0.8" />
+        <!-- Profile Image with Glassy Border -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cardCornerRadius="35dp"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="12dp">
 
-    <TextView
-        android:id="@+id/nav_login_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Fleet Management!"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        android:alpha="0.6"
-        android:layout_marginTop="4dp" />
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_profile"
+                android:scaleType="centerCrop"
+                android:contentDescription="Profile picture" />
 
-</LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Username -->
+        <TextView
+            android:id="@+id/nav_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="USER12345"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:shadowColor="#40000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/nav_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fleetmanagement@meil.in"
+            android:textSize="13sp"
+            android:textColor="#F5FFFFFF"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:shadowColor="#40000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="2" />
+
+        <!-- Login Time -->
+        <TextView
+            android:id="@+id/nav_login_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last login: Oct 23, 2025"
+            android:textSize="11sp"
+            android:textColor="#CCFFFFFF"
+            android:layout_marginTop="4dp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+
+</RelativeLayout>

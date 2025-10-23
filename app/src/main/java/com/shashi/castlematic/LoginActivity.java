@@ -118,18 +118,49 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     showLoading(false);
 
-                    Log.d(TAG, "API login successful. Token type: " + response.tokenType);
+                    Log.d(TAG, "API login successful. Token type: " + response.tokenType + ", Role: " + response.role);
 
-                    // Save API token
-                    authManager.saveToken(response.accessToken, response.tokenType);
+                    String role = response.role;
+                    if (role == null || role.trim().isEmpty()) {
+                        role = "admin";
+                        Log.d(TAG, "Role was null, defaulting to: " + role);
+                    }
 
-                    // Create app session
+                    // Check if user role is blocked
+                    if ("user".equalsIgnoreCase(role.trim())) {
+                        Toast.makeText(LoginActivity.this,
+                                "❌ User role cannot access mobile app.\nPlease use web dashboard.",
+                                Toast.LENGTH_LONG).show();
+                        authManager.clearToken();
+                        passwordInput.setText("");
+                        return;
+                    }
+
+                    // Save token
+                    authManager.saveToken(response.accessToken, response.tokenType, role);
                     sessionManager.createLoginSession(username);
 
                     Toast.makeText(LoginActivity.this, "✅ Login Successful", Toast.LENGTH_SHORT).show();
-                    navigateToMainActivity();
+
+                    // NEW: Navigate based on role
+                    navigateBasedOnRole(role);
                 });
             }
+
+            private void navigateBasedOnRole(String role) {
+                if ("driver".equalsIgnoreCase(role.trim())) {
+                    // Driver role - go directly to inspection page
+                    Intent intent = new Intent(LoginActivity.this,
+                            com.shashi.castlematic.features.driver_inspection.DriverInspectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // Admin/Super Admin - go to main dashboard
+                    navigateToMainActivity();
+                }
+            }
+
 
             @Override
             public void onError(String error) {
@@ -165,13 +196,13 @@ public class LoginActivity extends AppCompatActivity {
         if (AppConfig.TEST_USERNAME.equals(username) && AppConfig.TEST_PASSWORD.equals(password)) {
             Log.d(TAG, "Fallback login successful");
 
-            // Create mock token for offline use
-            authManager.saveToken("offline_token_" + System.currentTimeMillis(), "Bearer");
+            // Create mock token for offline use with super admin role
+            authManager.saveToken("offline_token_" + System.currentTimeMillis(), "Bearer", "super admin");
 
             // Create session
             sessionManager.createLoginSession(username);
 
-            Toast.makeText(this, "✅ Offline Login Successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "✅ Offline Login as Super Admin", Toast.LENGTH_SHORT).show();
             navigateToMainActivity();
         } else {
             Toast.makeText(this, "❌ Invalid credentials", Toast.LENGTH_LONG).show();

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +71,9 @@ public class FuelTheftActivity extends AppCompatActivity {
     private Button clearFilterBtn, prevBtn, nextBtn;
     private LinearLayout dataContainer;
 
+    // ScrollView for auto-scrolling
+    private ScrollView scrollView;
+
     // Data lists
     private List<TheftAlert> pendingAlertsList = new ArrayList<>();
     private List<TheftLog> actionPendingList = new ArrayList<>();
@@ -128,6 +133,9 @@ public class FuelTheftActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
+        // ScrollView
+        scrollView = findViewById(R.id.scrollView);
+
         // Date range selector
         dateRangeSpinner = findViewById(R.id.date_range_spinner);
         customDateContainer = findViewById(R.id.custom_date_container);
@@ -482,6 +490,20 @@ public class FuelTheftActivity extends AppCompatActivity {
         }
 
         displayCurrentFilter();
+        scrollToDataSection();
+    }
+
+    private void scrollToDataSection() {
+        if (scrollView == null || dataContainer == null) return;
+
+        scrollView.post(() -> {
+            // Scroll to the filter header if visible, else to data container
+            View targetView = filterHeader.getVisibility() == View.VISIBLE ? filterHeader : dataContainer;
+            if (targetView.getVisibility() == View.VISIBLE) {
+                int targetScrollY = targetView.getTop() - 100; // Offset to show some context above
+                scrollView.smoothScrollTo(0, Math.max(0, targetScrollY));
+            }
+        });
     }
 
     private void clearFilter() {
@@ -574,6 +596,21 @@ public class FuelTheftActivity extends AppCompatActivity {
         timestamp.setText(alert.getFormattedTimestamp());
         location.setText(alert.getFormattedLocation());
 
+        // Fix button text cutting on small devices by ensuring equal weight and margins
+        if (markTheftBtn != null && markFalseBtn != null) {
+            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+            btnParams.setMargins(4, 4, 2, 8);
+            markTheftBtn.setLayoutParams(btnParams);
+            markTheftBtn.setMinWidth(120); // Minimum width for small devices
+            markTheftBtn.setPadding(12, 8, 12, 8);
+
+            btnParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+            btnParams.setMargins(2, 4, 4, 8);
+            markFalseBtn.setLayoutParams(btnParams);
+            markFalseBtn.setMinWidth(120); // Minimum width for small devices
+            markFalseBtn.setPadding(12, 8, 12, 8);
+        }
+
         markTheftBtn.setOnClickListener(v -> markAsTheft(alert));
         markFalseBtn.setOnClickListener(v -> markAsFalse(alert));
 
@@ -610,6 +647,12 @@ public class FuelTheftActivity extends AppCompatActivity {
         if (showResolveButton) {
             android.widget.Button resolveBtn = logView.findViewById(R.id.resolve_btn);
             if (resolveBtn != null) {
+                // Fix button sizing for small devices
+                LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                btnParams.setMargins(4, 8, 4, 8);
+                resolveBtn.setLayoutParams(btnParams);
+                resolveBtn.setMinWidth(140);
+                resolveBtn.setPadding(16, 12, 16, 12);
                 resolveBtn.setOnClickListener(v -> resolveTheft(log));
             }
         }
