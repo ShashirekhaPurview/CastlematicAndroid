@@ -11,20 +11,24 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.shashi.castlematic.core.network.AuthManager;
+
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "CastlematicSplash";
     private static final int SPLASH_TIME_OUT = 2000;
 
     private SessionManager sessionManager;
+    private AuthManager authManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Initialize session manager
+        // Initialize managers
         sessionManager = new SessionManager(this);
+        authManager = AuthManager.getInstance(this);
 
         Log.d(TAG, "SplashActivity onCreate started");
 
@@ -40,20 +44,10 @@ public class SplashActivity extends AppCompatActivity {
             appName.startAnimation(fadeIn);
             tagline.startAnimation(fadeIn);
 
-            // Navigate based on login status
+            // Navigate based on login status and role
             new Handler().postDelayed(() -> {
                 try {
-                    Intent intent;
-                    if (sessionManager.isLoggedIn()) {
-                        Log.d(TAG, "User already logged in, navigating to MainActivity");
-                        intent = new Intent(SplashActivity.this, MainActivity.class);
-                    } else {
-                        Log.d(TAG, "User not logged in, navigating to LoginActivity");
-                        intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    }
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    navigateBasedOnLoginStatus();
                 } catch (Exception e) {
                     Log.e(TAG, "Error navigating: " + e.getMessage());
                 }
@@ -62,5 +56,34 @@ public class SplashActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(TAG, "Error in SplashActivity onCreate: " + e.getMessage());
         }
+    }
+
+    private void navigateBasedOnLoginStatus() {
+        Intent intent;
+
+        if (sessionManager.isLoggedIn() && authManager.hasValidToken()) {
+            // User is logged in - check role
+            String role = authManager.getUserRole();
+            Log.d(TAG, "User logged in with role: " + role);
+
+            if ("driver".equalsIgnoreCase(role)) {
+                // Driver - go to inspection page
+                Log.d(TAG, "Navigating to DriverInspectionActivity");
+                intent = new Intent(this,
+                        com.shashi.castlematic.features.driver_inspection.DriverInspectionActivity.class);
+            } else {
+                // Admin/Super Admin - go to main dashboard
+                Log.d(TAG, "Navigating to MainActivity");
+                intent = new Intent(this, MainActivity.class);
+            }
+        } else {
+            // User not logged in
+            Log.d(TAG, "User not logged in, navigating to LoginActivity");
+            intent = new Intent(this, LoginActivity.class);
+        }
+
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

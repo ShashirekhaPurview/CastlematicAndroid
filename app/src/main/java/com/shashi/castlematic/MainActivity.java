@@ -2,6 +2,7 @@ package com.shashi.castlematic;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -42,20 +43,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Initialize API client
         ApiClient.initialize(this);
 
-        // Set up authentication
-        setupAuthentication();
-
         // Initialize session manager
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
         sessionManager.updateLastActivity();
 
+        // Set up authentication and check role
+        AuthManager authManager = AuthManager.getInstance(this);
+
+        // NEW: Prevent drivers from accessing admin dashboard
+        if ("driver".equalsIgnoreCase(authManager.getUserRole())) {
+            Log.d("MainActivity", "Driver detected - redirecting to inspection page");
+            Intent intent = new Intent(this,
+                    com.shashi.castlematic.features.driver_inspection.DriverInspectionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        // Continue with normal setup for admin/super admin
+        setupAuthentication();
         setupToolbar();
         setupNavigationDrawer();
         updateNavigationHeader();
         initializeViews();
         setupClickListeners();
     }
+
 
     private void setupAuthentication() {
         AuthManager authManager = AuthManager.getInstance(this);

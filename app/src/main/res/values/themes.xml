@@ -38,15 +38,6 @@
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
-    <!-- Positive Button Style -->
-    <style name="PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/primary_color</item>
-    </style>
-
-    <!-- Negative Button Style -->
-    <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/grey_dark</item>
-    </style>
     <style name="CustomDatePickerStyle" parent="android:Widget.Material.DatePicker">
         <item name="android:headerBackground">@color/primary_color</item>
         <item name="android:calendarViewShown">true</item>
@@ -72,6 +63,26 @@
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">sans-serif-medium</item>
     </style>
+
+    <!-- Alert Dialog Theme with proper colors -->
+    <style name="CustomAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorAccent">@color/primary_color</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/primary_color</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
 
 
 </resources>

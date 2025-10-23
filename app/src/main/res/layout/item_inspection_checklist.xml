@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="6dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
 
@@ -11,20 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="10dp">
 
-        <!-- Category Header (shown only once per category) -->
+        <!-- Category Header -->
         <TextView
             android:id="@+id/category_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Engine &amp; Mechanical"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/primary_color"
             android:background="#F0F0F0"
-            android:padding="8dp"
-            android:layout_marginBottom="8dp"
+            android:padding="6dp"
+            android:layout_marginBottom="6dp"
             android:visibility="gone" />
 
         <!-- Checkbox Row -->
@@ -38,52 +38,59 @@
                 android:id="@+id/item_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/primary_color" />
+                android:buttonTint="@color/primary_color"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="6dp">
 
                 <TextView
                     android:id="@+id/item_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Engine Oil Level"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary" />
+                    android:textColor="@color/text_primary"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
 
                 <TextView
                     android:id="@+id/item_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Check oil level dipstick"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textColor="@color/text_secondary"
-                    android:layout_marginTop="2dp" />
+                    android:layout_marginTop="2dp"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
 
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/camera_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:src="@android:drawable/ic_menu_camera"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:tint="@color/primary_color"
-                android:contentDescription="Take photo" />
+                android:contentDescription="Take photo"
+                android:padding="6dp" />
 
         </LinearLayout>
 
-        <!-- Photo Preview (initially hidden) -->
+        <!-- Photo Preview -->
         <ImageView
             android:id="@+id/photo_preview"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="6dp"
             android:scaleType="centerCrop"
             android:background="#F0F0F0"
             android:visibility="gone"
@@ -94,17 +101,19 @@
             android:id="@+id/remarks_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Remarks (optional)"
-            android:layout_marginTop="8dp"
+            android:hint="Remarks"
+            android:layout_marginTop="6dp"
             android:visibility="gone"
-            app:boxBackgroundMode="outline">
+            app:boxBackgroundMode="outline"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/item_remarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="12sp" />
+                android:textSize="11sp"
+                android:minHeight="40dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

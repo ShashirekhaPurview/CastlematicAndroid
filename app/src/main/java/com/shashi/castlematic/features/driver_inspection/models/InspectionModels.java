@@ -52,6 +52,7 @@ public class InspectionModels {
         public String inspectionType; // "start" or "end"
         public String timestamp;
         public int odometerReading;
+        public double engineHours;  // NEW
         public List<InspectionItem> items;
         public String overallRemarks;
 
@@ -59,6 +60,7 @@ public class InspectionModels {
             this.items = new ArrayList<>();
         }
     }
+
 
     // Predefined Inspection Checklist
     public static List<InspectionItem> getDefaultInspectionItems() {
