@@ -33,6 +33,20 @@ public interface UserManagementApiService {
             @Part("expire_date") RequestBody expireDate,
             @Part("joining_date") RequestBody joiningDate,
             @Part("aadhar_card") RequestBody aadharCard,
+            @Part MultipartBody.Part licencePhoto,
+            @Part MultipartBody.Part licencePhotoBack,  // NEW
+            @Part MultipartBody.Part driverPhoto        // NEW
+    );
+
+    Call<ResponseBody> onboardDriver(
+            @Header("Authorization") String authorization,
+            @Header("client-id") String clientId,
+            @Part("driver_name") RequestBody driverName,
+            @Part("phone_number") RequestBody phoneNumber,
+            @Part("licence_number") RequestBody licenceNumber,
+            @Part("expire_date") RequestBody expireDate,
+            @Part("joining_date") RequestBody joiningDate,
+            @Part("aadhar_card") RequestBody aadharCard,
             @Part MultipartBody.Part licencePhoto
     );
 
